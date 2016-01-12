@@ -8,7 +8,9 @@ openldap_version=2.4.43
 
 
 # Install dependencies
-sudo apt-get -y install libssl-dev
+if ! dpkg -l libssl-dev &> /dev/null; then
+    sudo apt-get -y install libssl-dev
+fi
 
 # Build musl
 wget http://www.musl-libc.org/releases/musl-$musl_version.tar.gz
