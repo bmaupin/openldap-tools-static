@@ -28,7 +28,9 @@ cd ..
 wget ftp://ftp.openldap.org/pub/OpenLDAP/openldap-release/openldap-$openldap_version.tgz
 tar -xvf openldap-$openldap_version.tgz
 cd openldap-$openldap_version
-CC="$musl_install/bin/musl-gcc" LDFLAGS="-static" ./configure --prefix=/usr/local --disable-shared --disable-slapd
+# LIBS="-ldl" is necessary to build OpenSSL support (http://www.openldap.org/lists/openldap-software/200702/msg00023.html)
+# --with-tls=openssl forces building TLS
+CC="$musl_install/bin/musl-gcc" LDFLAGS="-static" ./configure --disable-shared --disable-slapd --with-tls=openssl
 make depend
 make
 
