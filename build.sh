@@ -31,22 +31,6 @@ make
 make install
 cd ..
 
-# Build Cyrus SASL
-# Change Cyrus SASL version at your own risk (http://www.openldap.org/lists/openldap-technical/201202/msg00440.html)
-cyrus_sasl_version=2.1.23
-wget ftp://ftp.cyrusimap.org/cyrus-sasl/cyrus-sasl-$cyrus_sasl_version.tar.gz
-tar -xvf cyrus-sasl-$cyrus_sasl_version.tar.gz
-cd cyrus-sasl-$cyrus_sasl_version
-cyrus_sasl_install=`pwd`/local
-# Bug fix (http://www.linuxquestions.org/questions/linux-from-scratch-13/cyrus-sasl-2-1-23-fails-compiling-on-lfs-846940/)
-sed -i.bak 's/#elif WITH_DES/#elif defined(WITH_DES)/' plugins/digestmd5.c
-# Minimal SASL install
-./configure --prefix=$cyrus_sasl_install --enable-static --disable-shared --disable-gssapi --disable-otp --disable-sample --without-des --without-gdbm
-# Bug fix (https://lists.andrew.cmu.edu/pipermail/cyrus-sasl/2008-June/001413.html)
-make || make
-make install
-cd ..
-
 # Build OpenLDAP
 wget ftp://ftp.openldap.org/pub/OpenLDAP/openldap-release/openldap-$openldap_version.tgz
 tar -xvf openldap-$openldap_version.tgz
